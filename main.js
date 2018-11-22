@@ -1,11 +1,20 @@
-// указывает файлы которые нужно открыть и использовать //
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
-import '../client/main.html'
-import '../imports/startup/accounts-config.js';
-import App from '../imports/ui/App.js';
-// открывает документ(render-target который в main.html) для начала работы//
-Meteor.startup(() => {
-  render(<App />, document.getElementById('render-target'));
+import assert from "assert";
+
+describe("simple-todos", function () {
+  it("package.json has correct name", async function () {
+    const { name } = await import("../package.json");
+    assert.strictEqual(name, "simple-todos");
+  });
+
+  if (Meteor.isClient) {
+    it("client is not server", function () {
+      assert.strictEqual(Meteor.isServer, false);
+    });
+  }
+
+  if (Meteor.isServer) {
+    it("server is not client", function () {
+      assert.strictEqual(Meteor.isClient, false);
+    });
+  }
 });
